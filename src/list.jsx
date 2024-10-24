@@ -1,13 +1,19 @@
 import ListGroup from "react-bootstrap/ListGroup";
+import { FaRegTrashAlt } from "react-icons/fa";
 
-function List() {
+function List({ tasks, deletItem }) {
   return (
     <ListGroup>
-      <ListGroup.Item>Cras justo odio</ListGroup.Item>
-      <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
-      <ListGroup.Item>Morbi leo risus</ListGroup.Item>
-      <ListGroup.Item>Porta ac consectetur ac</ListGroup.Item>
-      <ListGroup.Item>Vestibulum at eros</ListGroup.Item>
+      {tasks.map((item) => (
+        <ListGroup.Item>
+          <p>{item.name}</p>
+          <FaRegTrashAlt
+            size={20}
+            color="red"
+            onClick={() => deletItem(item.id)}
+          />
+        </ListGroup.Item>
+      ))}
     </ListGroup>
   );
 }

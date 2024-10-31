@@ -1,20 +1,21 @@
 import Modal from "react-bootstrap/Modal";
 
-function NewTaskModal({ showModal, setShow, setTaskName, addTask }) {
+function NewTaskModal({ showAddModal, setAddModal, name, setName, addTask }) {
   return (
     <div>
       <Modal
-        show={showModal}
-        onHide={() => setShow(false)}
+        show={showAddModal}
+        onHide={() => setAddModal(false)}
         backdrop="static"
         keyboard={false}
       >
         <Modal.Body>
-          <button onClick={() => setShow(false)}>x</button>
+          <button onClick={() => setAddModal(false)}>x</button>
           <input
             type="text"
+            value={name}
             onChange={(e) => {
-              setTaskName(e.target.value);
+              setName(e.target.value);
             }}
           />
           <button onClick={addTask}>Add</button>

@@ -1,60 +1,65 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-
-import { Button, ListGroup } from "react-bootstrap";
-import SearchUI from "./search";
 import List from "./list";
 import NewTaskModal from "./newTaskModal";
+import EidtTaskModal from "./editModal";
 function App() {
   // state for show/hide the modal
   const [showModal, setShow] = useState(false);
-  const [taskName, setTaskName] = useState("");
-
   const [tasks, setTasks] = useState([]);
-  const [selectedItem, setSelectedItem] = useState("");
-
+  const [taksText, setTaskText] = useState("");
+  const [showEidt, setShowEidt] = useState(false);
+  const [selecteId, setSelectedId] = useState(null);
+  const [editItem, setEditItem] = useState("");
+  // create add function
   function addTask() {
-    let myTasks = [...tasks];
-    myTasks.push({ name: taskName, id: Math.random(4) });
-
-    setTasks(myTasks);
+    // add new input as task using push
+    let newTasks = [...tasks];
+    newTasks.push({ title: taksText, id: Math.random(4) });
+    setTasks(newTasks);
   }
 
-  function deletItem(id) {
-    // filter the array base on the id
-    // kick the item of that id out
-    let filterdTasks = tasks.filter((item) => item.id != id);
-    // update tasks state using setTasks
-    setTasks(filterdTasks);
+  function deleteItem(id) {
+    let filteredTasks = tasks.filter((item) => {
+      return item.id != id;
+    });
+    setTasks(filteredTasks);
   }
-  function onSave(id) {
-    let updateTasks = tasks.map((item) => {
-      if (id == item.id) {
-        return { ...item, name: selectedItem };
+  function updateItem() {
+    let updatedTasks = tasks.map((item) => {
+      if (item.id == selecteId) {
+        return { ...item, title: editItem };
       } else {
         return item;
       }
     });
-    setTasks(updateTasks);
+    setTasks(updatedTasks);
   }
   return (
     <div>
       <button onClick={() => setShow(true)}>+</button>
-
       <List
-        onSave={onSave}
-        selectedItem={selectedItem}
-        setSelectedItem={setSelectedItem}
-        tasks={tasks}
-        deletItem={deletItem}
+        data={tasks}
+        editItem={editItem}
+        setEditItem={setEditItem}
+        deleteItem={deleteItem}
+        setEditdModal={setShowEidt}
+        setSelectedId={setSelectedId}
       />
-
       <NewTaskModal
-        showModal={showModal}
-        setShow={setShow}
-        setTaskName={setTaskName}
+        showAddModal={showModal}
+        setAddModal={setShow}
+        name={taksText}
+        setName={setTaskText}
         addTask={addTask}
+      />
+      <EidtTaskModal
+        showEditModal={showEidt}
+        editItem={editItem}
+        setEditItem={setEditItem}
+        setEditdModal={setShowEidt}
+        updateItem={updateItem}
       />
     </div>
   );

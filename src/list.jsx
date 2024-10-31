@@ -1,45 +1,25 @@
-import { useState } from "react";
-import ListGroup from "react-bootstrap/ListGroup";
-import { FaRegTrashAlt, FaEdit } from "react-icons/fa";
-import EditTaskModal from "./editTaskModal";
+import React from "react";
 
-function List({ tasks, deletItem, onSave, selectedItem, setSelectedItem }) {
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [selectedId, setSelectedId] = useState(null);
+function List({ data, deleteItem, setEditItem, setEditdModal, setSelectedId }) {
   return (
-    <div>
-      <ListGroup>
-        {tasks.map((item) => (
-          <ListGroup.Item>
-            <p>{item.name}</p>
-            <FaRegTrashAlt
-              size={20}
-              color="red"
-              onClick={() => deletItem(item.id)}
-            />
-            <FaEdit
-              onClick={() => {
-                setShowEditModal(true);
-                setSelectedItem(item.name);
-                setSelectedId(item.id);
-              }}
-              size={20}
-              color="green"
-              className="mx-3"
-            />
-          </ListGroup.Item>
-        ))}
-      </ListGroup>
+    <ul>
+      {data.map((item) => (
+        <li key={item.id}>
+          {item.title}
 
-      <EditTaskModal
-        onSave={onSave}
-        selectedId={selectedId}
-        selectedItem={selectedItem}
-        setSelectedItem={setSelectedItem}
-        showEditModal={showEditModal}
-        setShowEditModal={setShowEditModal}
-      />
-    </div>
+          <button
+            onClick={() => {
+              setEditdModal(true);
+              setEditItem(item.title);
+              setSelectedId(item.id);
+            }}
+          >
+            edit
+          </button>
+          <button onClick={() => deleteItem(item.id)}>delete</button>
+        </li>
+      ))}
+    </ul>
   );
 }
 
